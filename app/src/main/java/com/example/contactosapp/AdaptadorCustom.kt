@@ -29,7 +29,7 @@ class AdaptadorCustom(var context: Context, items:ArrayList<Contacto>): BaseAdap
         }
 
         val item = getItem(position) as Contacto
-        viewHolder?.nombre?.text = item.nombre
+        viewHolder?.nombre?.text = "${item.nombre} ${item.apellido}"
         viewHolder?.foto?.setImageResource(item.foto)
         viewHolder?.empresa?.text = item.empresa
 
