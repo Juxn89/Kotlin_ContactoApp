@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item
-        android:id="@+id/app_bar_switch"
-        android:title="Switch"
+        android:id="@+id/searchView"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="@string/titulo_buscar"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/aswitch"
+        android:title="@string/titulo_switch"
         app:actionLayout="@layout/switch_item"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/iNuevo"
         android:icon="@drawable/icono_nuevo"
-        android:title="Nuevo contacto"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/app_bar_search"
-        android:icon="@drawable/ic_search_black_24dp"
-        android:title="Buscar contacto..."
-        app:actionViewClass="androidx.appcompat.widget.SearchView" ></item>
+        android:title="@string/titulo_nuevo"
+        app:showAsAction="ifRoom" />
 </menu>
