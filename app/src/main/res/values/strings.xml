@@ -3,4 +3,10 @@
     <string name="titulo_nuevo">Nuevo contacto</string>
     <string name="titulo_switch">Cambiar vista</string>
     <string name="titulo_buscar">Buscar contacto...</string>
+
+    <string name="titulo_edad">Edad</string>
+    <string name="titulo_peso">Peso</string>
+    <string name="titulo_telefono">Teléfóno</string>
+    <string name="titulo_email">EMail</string>
+    <string name="titulo_direccion">Dirección</string>
 </resources>
