@@ -72,13 +72,13 @@
         android:layout_marginTop="20dp"
         android:hint="Nombre"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        app:layout_constraintEnd_toStartOf="@+id/tvNombre2"
+        app:layout_constraintEnd_toStartOf="@+id/tvApellido"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <EditText
-        android:id="@+id/tvNombre2"
+        android:id="@+id/tvApellido"
         android:layout_width="150dp"
         android:layout_height="65dp"
         android:layout_marginTop="20dp"
@@ -92,12 +92,11 @@
         android:id="@+id/tvEmpresa"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:hint="Empresa"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvNombre2" />
+        app:layout_constraintTop_toBottomOf="@+id/tvApellido" />
 
     <TextView
         android:id="@+id/textView3"
