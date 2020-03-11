@@ -7,8 +7,10 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import java.util.*
+import kotlin.collections.ArrayList
 
 class Nuevo : AppCompatActivity() {
 
@@ -41,9 +43,32 @@ class Nuevo : AppCompatActivity() {
                 val email = findViewById<EditText>(R.id.tvEmail)
                 val direccion = findViewById<EditText>(R.id.tvDireccion)
 
-                MainActivity.AgregarConctacto(Contacto(nombre.text.toString(), apellido.text.toString(), empresa.text.toString(), edad.text.toString().toInt(), peso.text.toString().toFloat(), direccion.text.toString(), telefono.text.toString(), email.text.toString(), R.drawable.foto_02))
-                finish()
-                Log.d("NO ELEMENTOS", MainActivity.contactos?.count().toString())
+                val campos = ArrayList<String>()
+                campos.add(nombre.text.toString())
+                campos.add(apellido.text.toString())
+                campos.add(empresa.text.toString())
+                campos.add(edad.text.toString())
+                campos.add(peso.text.toString())
+                campos.add(telefono.text.toString())
+                campos.add(email.text.toString())
+                campos.add(direccion.text.toString())
+
+                var flag = 0
+                for (campo in campos) {
+                    if (campo.isNullOrEmpty()) {
+                        flag++
+                    }
+                }
+
+                if (flag > 0) {
+                    Toast.makeText(this, "Rellena todos los campos", Toast.LENGTH_LONG).show()
+                }
+                else {
+                    MainActivity.AgregarConctacto(Contacto(nombre.text.toString(), apellido.text.toString(), empresa.text.toString(), edad.text.toString().toInt(), peso.text.toString().toFloat(), direccion.text.toString(), telefono.text.toString(), email.text.toString(), R.drawable.foto_02))
+                    finish()
+                    Log.d("NO ELEMENTOS", MainActivity.contactos?.count().toString())
+                }
+
                 return true
             }
             else -> {
