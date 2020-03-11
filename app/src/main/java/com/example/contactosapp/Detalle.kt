@@ -3,6 +3,8 @@ package com.example.contactosapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 
@@ -39,5 +41,28 @@ class Detalle : AppCompatActivity() {
         tvTelefono.text = contacto.telefono
         tvEmail.text = contacto.email
         tvDireccion.text = contacto.direccion
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_detalle, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item?.itemId) {
+            R.id.home -> {
+                finish()
+                return true
+            }
+            R.id.iEliminar -> {
+                return true
+            }
+            R.id.iEditar -> {
+                return true
+            }
+            else -> {
+                return super.onOptionsItemSelected(item)
+            }
+        }
     }
 }

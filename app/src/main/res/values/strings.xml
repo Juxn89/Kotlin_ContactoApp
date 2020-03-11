@@ -9,4 +9,5 @@
     <string name="titulo_telefono">Teléfóno</string>
     <string name="titulo_email">EMail</string>
     <string name="titulo_direccion">Dirección</string>
+    <string name="titulo_eliminar">Eliminar contacto</string>
 </resources>
