@@ -27,6 +27,10 @@ class MainActivity : AppCompatActivity() {
         fun eliminarContacto(index:Int){
             contactos?.removeAt(index)
         }
+
+        fun actualizarContacto(index:Int, nuevoContato:Contacto) {
+            contactos?.set(index, nuevoContato)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,5 +1,6 @@
 package com.example.contactosapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -26,26 +27,7 @@ class Detalle : AppCompatActivity() {
         index = intent.getStringExtra("ID").toString().toInt()
 
         //Log.d("INDEX", index.toString())
-
-        val contacto = MainActivity.obtenerContacto(index)
-
-        val tvNombre = findViewById<TextView>(R.id.tvNombre)
-        val tvEmpresa = findViewById<TextView>(R.id.tvEmpresa)
-        val tvEdad = findViewById<TextView>(R.id.tvEdad)
-        val tvPeso = findViewById<TextView>(R.id.tvPeso)
-        val tvTelefono = findViewById<TextView>(R.id.tvTelefono)
-        val tvEmail = findViewById<TextView>(R.id.tvEmail)
-        val tvDireccion = findViewById<TextView>(R.id.tvDireccion)
-        val ivFoto = findViewById<ImageView>(R.id.imageView)
-
-        tvNombre.text = "${contacto.nombre} ${contacto.apellido}"
-        tvEmpresa.text = contacto.empresa
-        tvEdad.text = contacto.edad.toString()
-        tvPeso.text = contacto.peso.toString()
-        tvTelefono.text = contacto.telefono
-        tvEmail.text = contacto.email
-        tvDireccion.text = contacto.direccion
-        ivFoto.setImageResource(contacto.foto)
+        mapearDatos()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -65,11 +47,41 @@ class Detalle : AppCompatActivity() {
                 return true
             }
             R.id.iEditar -> {
+                val intent = Intent(this, Nuevo::class.java)
+                intent.putExtra("ID", index.toString())
+                startActivity(intent)
                 return true
             }
             else -> {
                 return super.onOptionsItemSelected(item)
             }
         }
+    }
+
+    override fun onResume() {
+        mapearDatos()
+        super.onResume()
+    }
+
+    fun mapearDatos() {
+        val contacto = MainActivity.obtenerContacto(index)
+
+        val tvNombre = findViewById<TextView>(R.id.tvNombre)
+        val tvEmpresa = findViewById<TextView>(R.id.tvEmpresa)
+        val tvEdad = findViewById<TextView>(R.id.tvEdad)
+        val tvPeso = findViewById<TextView>(R.id.tvPeso)
+        val tvTelefono = findViewById<TextView>(R.id.tvTelefono)
+        val tvEmail = findViewById<TextView>(R.id.tvEmail)
+        val tvDireccion = findViewById<TextView>(R.id.tvDireccion)
+        val ivFoto = findViewById<ImageView>(R.id.imageView)
+
+        tvNombre.text = "${contacto.nombre} ${contacto.apellido}"
+        tvEmpresa.text = contacto.empresa
+        tvEdad.text = contacto.edad.toString()
+        tvPeso.text = contacto.peso.toString()
+        tvTelefono.text = contacto.telefono
+        tvEmail.text = contacto.email
+        tvDireccion.text = contacto.direccion
+        ivFoto.setImageResource(contacto.foto)
     }
 }

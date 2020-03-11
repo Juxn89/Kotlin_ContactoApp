@@ -6,10 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import java.util.*
@@ -18,9 +15,10 @@ import kotlin.collections.ArrayList
 class Nuevo : AppCompatActivity() {
 
     var fotoIndex:Int = 0
+    var foto:ImageView? = null
     val fotos = arrayOf(R.drawable.foto_01, R.drawable.foto_02, R.drawable.foto_03, R.drawable.foto_04, R.drawable.foto_05, R.drawable.foto_06)
 
-    var foto:ImageView? = null
+    var index:Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +34,11 @@ class Nuevo : AppCompatActivity() {
         foto?.setOnClickListener {
             SelecionarFoto()
         }
+
+        if (intent.hasExtra("ID")) {
+            index = intent.getStringExtra("ID").toInt()
+            rellenarDatos(index)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -50,7 +53,6 @@ class Nuevo : AppCompatActivity() {
                 return true
             }
             R.id.iCrearNuevo -> {
-
                 // Crear un nuevo elemento de tipo Contacto
                 val nombre = findViewById<EditText>(R.id.tvNombre)
                 val apellido = findViewById<EditText>(R.id.tvApellido)
@@ -82,8 +84,14 @@ class Nuevo : AppCompatActivity() {
                     Toast.makeText(this, "Rellena todos los campos", Toast.LENGTH_LONG).show()
                 }
                 else {
-                    MainActivity.AgregarConctacto(Contacto(nombre.text.toString(), apellido.text.toString(), empresa.text.toString(), edad.text.toString().toInt(), peso.text.toString().toFloat(), direccion.text.toString(), telefono.text.toString(), email.text.toString(), obtenerFoto(fotoIndex)))
-                    finish()
+                    if (index > -1) {
+                        MainActivity.actualizarContacto(index, Contacto(nombre.text.toString(), apellido.text.toString(), empresa.text.toString(), edad.text.toString().toInt(), peso.text.toString().toFloat(), direccion.text.toString(), telefono.text.toString(), email.text.toString(), obtenerFoto(fotoIndex)))
+                        finish()
+                    }
+                    else {
+                        MainActivity.AgregarConctacto(Contacto(nombre.text.toString(), apellido.text.toString(), empresa.text.toString(), edad.text.toString().toInt(), peso.text.toString().toFloat(), direccion.text.toString(), telefono.text.toString(), email.text.toString(), obtenerFoto(fotoIndex)))
+                        finish()
+                    }
                     Log.d("NO ELEMENTOS", MainActivity.contactos?.count().toString())
                 }
 
@@ -123,5 +131,37 @@ class Nuevo : AppCompatActivity() {
 
     fun obtenerFoto(index:Int):Int {
         return fotos.get(index)
+    }
+
+    fun rellenarDatos(index: Int) {
+        val contacto = MainActivity.obtenerContacto(index)
+
+        val tvNombre = findViewById<EditText>(R.id.tvNombre)
+        val tvApellido = findViewById<EditText>(R.id.tvApellido)
+        val tvEmpresa = findViewById<EditText>(R.id.tvEmpresa)
+        val tvEdad = findViewById<EditText>(R.id.tvEdad)
+        val tvPeso = findViewById<EditText>(R.id.tvPeso)
+        val tvTelefono = findViewById<EditText>(R.id.tvTelefono)
+        val tvEmail = findViewById<EditText>(R.id.tvEmail)
+        val tvDireccion = findViewById<EditText>(R.id.tvDireccion)
+        val ivFoto = findViewById<ImageView>(R.id.imageView)
+
+        tvNombre.setText(contacto.nombre, TextView.BufferType.EDITABLE)
+        tvApellido.setText(contacto.apellido, TextView.BufferType.EDITABLE)
+        tvEmpresa.setText(contacto.empresa, TextView.BufferType.EDITABLE)
+        tvEdad.setText(contacto.edad.toString(), TextView.BufferType.EDITABLE)
+        tvPeso.setText(contacto.peso.toString(), TextView.BufferType.EDITABLE)
+        tvTelefono.setText(contacto.telefono, TextView.BufferType.EDITABLE)
+        tvEmail.setText(contacto.email, TextView.BufferType.EDITABLE)
+        tvDireccion.setText(contacto.direccion, TextView.BufferType.EDITABLE)
+        ivFoto.setImageResource(contacto.foto)
+
+        var posicion = 0
+        for (foto in fotos){
+            if (contacto.foto == foto) {
+                fotoIndex = posicion
+            }
+            posicion++
+        }
     }
 }
