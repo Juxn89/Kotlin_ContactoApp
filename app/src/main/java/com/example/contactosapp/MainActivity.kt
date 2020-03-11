@@ -19,6 +19,10 @@ class MainActivity : AppCompatActivity() {
         fun AgregarConctacto(contacto: Contacto){
             contactos?.add(contacto)
         }
+
+        fun obtenerContacto(index:Int):Contacto{
+            return contactos?.get(index)!!
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +39,12 @@ class MainActivity : AppCompatActivity() {
         adaptador = AdaptadorCustom(this, contactos!!)
 
         lista?.adapter = adaptador
+
+        lista?.setOnItemClickListener { parent, view, position, id ->
+            val intent = Intent(this, Detalle::class.java)
+            intent.putExtra("ID", position.toString())
+            startActivity(intent)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
