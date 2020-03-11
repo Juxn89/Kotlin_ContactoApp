@@ -6,13 +6,21 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import java.util.*
 import kotlin.collections.ArrayList
 
 class Nuevo : AppCompatActivity() {
+
+    var fotoIndex:Int = 0
+    val fotos = arrayOf(R.drawable.foto_01, R.drawable.foto_02, R.drawable.foto_03, R.drawable.foto_04, R.drawable.foto_05, R.drawable.foto_06)
+
+    var foto:ImageView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +31,11 @@ class Nuevo : AppCompatActivity() {
 
         val actionBar = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
+
+        foto = findViewById<ImageView>(R.id.imageView)
+        foto?.setOnClickListener {
+            SelecionarFoto()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -33,6 +46,7 @@ class Nuevo : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item?.itemId){
             R.id.iCrearNuevo -> {
+
                 // Crear un nuevo elemento de tipo Contacto
                 val nombre = findViewById<EditText>(R.id.tvNombre)
                 val apellido = findViewById<EditText>(R.id.tvApellido)
@@ -64,7 +78,7 @@ class Nuevo : AppCompatActivity() {
                     Toast.makeText(this, "Rellena todos los campos", Toast.LENGTH_LONG).show()
                 }
                 else {
-                    MainActivity.AgregarConctacto(Contacto(nombre.text.toString(), apellido.text.toString(), empresa.text.toString(), edad.text.toString().toInt(), peso.text.toString().toFloat(), direccion.text.toString(), telefono.text.toString(), email.text.toString(), R.drawable.foto_02))
+                    MainActivity.AgregarConctacto(Contacto(nombre.text.toString(), apellido.text.toString(), empresa.text.toString(), edad.text.toString().toInt(), peso.text.toString().toFloat(), direccion.text.toString(), telefono.text.toString(), email.text.toString(), obtenerFoto(fotoIndex)))
                     finish()
                     Log.d("NO ELEMENTOS", MainActivity.contactos?.count().toString())
                 }
@@ -75,5 +89,35 @@ class Nuevo : AppCompatActivity() {
                 return super.onOptionsItemSelected(item)
             }
         }
+    }
+
+    fun SelecionarFoto(){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Selecciona imagen de perfil")
+
+        val adaptadorDialogo = ArrayAdapter<String>(this,  android.R.layout.simple_selectable_list_item)
+        adaptadorDialogo.add("Foto 01")
+        adaptadorDialogo.add("Foto 02")
+        adaptadorDialogo.add("Foto 03")
+        adaptadorDialogo.add("Foto 04")
+        adaptadorDialogo.add("Foto 05")
+        adaptadorDialogo.add("Foto 06")
+
+        builder.setAdapter(adaptadorDialogo){
+            dialog, which ->
+            fotoIndex = which
+            foto?.setImageResource(obtenerFoto(fotoIndex))
+        }
+
+        builder.setNegativeButton("Cancelar"){
+            dialog, which ->
+            dialog.dismiss()
+        }
+
+        builder.show()
+    }
+
+    fun obtenerFoto(index:Int):Int {
+        return fotos.get(index)
     }
 }
