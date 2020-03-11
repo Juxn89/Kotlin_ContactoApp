@@ -5,10 +5,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 
 class Detalle : AppCompatActivity() {
+
+    var index:Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +23,7 @@ class Detalle : AppCompatActivity() {
         var actionBar = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val index = intent.getStringExtra("ID").toString().toInt()
+        index = intent.getStringExtra("ID").toString().toInt()
 
         //Log.d("INDEX", index.toString())
 
@@ -33,6 +36,7 @@ class Detalle : AppCompatActivity() {
         val tvTelefono = findViewById<TextView>(R.id.tvTelefono)
         val tvEmail = findViewById<TextView>(R.id.tvEmail)
         val tvDireccion = findViewById<TextView>(R.id.tvDireccion)
+        val ivFoto = findViewById<ImageView>(R.id.imageView)
 
         tvNombre.text = "${contacto.nombre} ${contacto.apellido}"
         tvEmpresa.text = contacto.empresa
@@ -41,6 +45,7 @@ class Detalle : AppCompatActivity() {
         tvTelefono.text = contacto.telefono
         tvEmail.text = contacto.email
         tvDireccion.text = contacto.direccion
+        ivFoto.setImageResource(contacto.foto)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -50,11 +55,13 @@ class Detalle : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item?.itemId) {
-            R.id.home -> {
+            android.R.id.home -> {
                 finish()
                 return true
             }
             R.id.iEliminar -> {
+                MainActivity.eliminarContacto(index)
+                finish()
                 return true
             }
             R.id.iEditar -> {

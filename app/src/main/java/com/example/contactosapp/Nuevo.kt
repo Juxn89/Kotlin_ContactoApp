@@ -45,7 +45,7 @@ class Nuevo : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item?.itemId){
-            R.id.home -> {
+            android.R.id.home -> {
                 finish()
                 return true
             }

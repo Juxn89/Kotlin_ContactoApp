@@ -23,6 +23,10 @@ class MainActivity : AppCompatActivity() {
         fun obtenerContacto(index:Int):Contacto{
             return contactos?.get(index)!!
         }
+
+        fun eliminarContacto(index:Int){
+            contactos?.removeAt(index)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
