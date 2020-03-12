@@ -1,35 +1,38 @@
 package com.example.contactosapp
 
+import android.app.SearchManager
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ListView
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 
 class MainActivity : AppCompatActivity() {
 
     var lista:ListView? = null
-    var adaptador:AdaptadorCustom? = null
 
     companion object {
         var contactos:ArrayList<Contacto>? = null
+        var adaptador:AdaptadorCustom? = null
 
         fun AgregarConctacto(contacto: Contacto){
-            contactos?.add(contacto)
+            adaptador?.addItem(contacto)
         }
 
         fun obtenerContacto(index:Int):Contacto{
-            return contactos?.get(index)!!
+            return adaptador?.getItem(index) as Contacto
         }
 
         fun eliminarContacto(index:Int){
-            contactos?.removeAt(index)
+            adaptador?.removeItem(index)
         }
 
         fun actualizarContacto(index:Int, nuevoContato:Contacto) {
-            contactos?.set(index, nuevoContato)
+            adaptador?.updateItem(index, nuevoContato)
         }
     }
 
@@ -42,6 +45,11 @@ class MainActivity : AppCompatActivity() {
 
         contactos = ArrayList()
         contactos?.add(Contacto("Juan", "Gómez","Contollo Consulting", 30, 70.3F, "Ciudad El Doral CED F-28", "58144049", "jgomez@contolloconsulting.com", R.drawable.foto_01))
+        contactos?.add(Contacto("Carlos", "Bermúdez","Contollo Consulting", 30, 70.3F, "Ciudad El Doral CED F-28", "58144049", "jgomez@contolloconsulting.com", R.drawable.foto_02))
+        contactos?.add(Contacto("Giobla", "Lorente","Contollo Consulting", 30, 70.3F, "Ciudad El Doral CED F-28", "58144049", "jgomez@contolloconsulting.com", R.drawable.foto_03))
+        contactos?.add(Contacto("Scarlet", "Rodríguez","Contollo Consulting", 30, 70.3F, "Ciudad El Doral CED F-28", "58144049", "jgomez@contolloconsulting.com", R.drawable.foto_04))
+        contactos?.add(Contacto("Ilse", "Gómez","Contollo Consulting", 30, 70.3F, "Ciudad El Doral CED F-28", "58144049", "jgomez@contolloconsulting.com", R.drawable.foto_05))
+        contactos?.add(Contacto("Michelle", "Bermúdez","Contollo Consulting", 30, 70.3F, "Ciudad El Doral CED F-28", "58144049", "jgomez@contolloconsulting.com", R.drawable.foto_06))
 
         lista = findViewById<ListView>(R.id.lista)
         adaptador = AdaptadorCustom(this, contactos!!)
@@ -57,6 +65,29 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
+
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val itemBusqueda = menu?.findItem(R.id.searchView)
+        val searchView = itemBusqueda?.actionView as SearchView
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
+        searchView.queryHint = "Buscar contacto"
+        searchView.setOnQueryTextFocusChangeListener { v, hasFocus ->
+
+        }
+
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adaptador?.filtrar(newText!!)
+                return true
+            }
+
+        })
+
         return super.onCreateOptionsMenu(menu)
     }
 
