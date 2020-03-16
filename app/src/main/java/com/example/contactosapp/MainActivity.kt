@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.GridView
 import android.widget.ListView
 import android.widget.Switch
 import android.widget.ViewSwitcher
@@ -17,11 +18,14 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     var lista:ListView? = null
+    var grid:GridView? = null
     var switcherView :ViewSwitcher? = null
 
     companion object {
         var contactos:ArrayList<Contacto>? = null
         var adaptador:AdaptadorCustom? = null
+
+        var adaptadorGrid:AdaptadorCustomGrid? = null
 
         fun AgregarConctacto(contacto: Contacto){
             adaptador?.addItem(contacto)
@@ -56,9 +60,14 @@ class MainActivity : AppCompatActivity() {
         contactos?.add(Contacto("Michelle", "Bermúdez","Contollo Consulting", 30, 70.3F, "Ciudad El Doral CED F-28", "58144049", "jgomez@contolloconsulting.com", R.drawable.foto_06))
 
         lista = findViewById<ListView>(R.id.lista)
+        grid = findViewById<GridView>(R.id.grid)
+
         adaptador = AdaptadorCustom(this, contactos!!)
+        adaptadorGrid = AdaptadorCustomGrid(this, contactos!!)
 
         lista?.adapter = adaptador
+        grid?.adapter = adaptadorGrid
+
         switcherView = findViewById(R.id.viewSwitcher)
 
         lista?.setOnItemClickListener { parent, view, position, id ->
