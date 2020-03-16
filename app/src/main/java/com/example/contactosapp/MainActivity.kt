@@ -8,12 +8,16 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ListView
+import android.widget.Switch
+import android.widget.ViewSwitcher
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     var lista:ListView? = null
+    var switcherView :ViewSwitcher? = null
 
     companion object {
         var contactos:ArrayList<Contacto>? = null
@@ -55,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         adaptador = AdaptadorCustom(this, contactos!!)
 
         lista?.adapter = adaptador
+        switcherView = findViewById(R.id.viewSwitcher)
 
         lista?.setOnItemClickListener { parent, view, position, id ->
             val intent = Intent(this, Detalle::class.java)
@@ -69,6 +74,10 @@ class MainActivity : AppCompatActivity() {
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val itemBusqueda = menu?.findItem(R.id.searchView)
         val searchView = itemBusqueda?.actionView as SearchView
+
+        val itemSwitch = menu?.findItem(R.id.aswitch)
+        itemSwitch?.setActionView(R.layout.switch_item)
+        val switchView = itemSwitch?.actionView?.findViewById<Switch>(R.id.sCambiaVista)
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
         searchView.queryHint = "Buscar contacto"
@@ -87,6 +96,10 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+
+        switchView?.setOnCheckedChangeListener { buttonView, isChecked ->
+            viewSwitcher?.showNext()
+        }
 
         return super.onCreateOptionsMenu(menu)
     }
